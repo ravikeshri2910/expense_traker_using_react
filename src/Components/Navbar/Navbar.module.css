@@ -1,0 +1,19 @@
+.navItemContainer{
+
+    width: 40%;
+    color: white;
+    display: flex;
+    margin-left: 25%; 
+    justify-content:space-between; 
+    align-items: center; 
+    font-size: 25px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+   
+}
+
+.navItem{
+
+    /* border: 2px solid red; */
+    color: white;
+    text-decoration: none;
+}
