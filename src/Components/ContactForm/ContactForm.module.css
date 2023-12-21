@@ -1,0 +1,43 @@
+.formContainer{
+
+    /* border: 2px solid red; */
+    margin: 4rem 25rem;
+    height: 300px;
+    background-color: rgb(75, 19, 19);
+    color: aliceblue;
+    border-radius: 5px;
+    padding-top: 2%;
+}
+
+.form{
+    display: grid;
+    /* margin: 5rem 25rem; */
+}
+
+.form input{
+    border: 2px solid black;
+    width: 70%;
+    margin: 0 4rem;
+}
+/* .buttonDiv{
+    display: flex;
+} */
+.buttonDiv{
+    /* border: 2px solid red; */
+    display: flex;
+    width: 30%;
+    margin-left: 8rem;
+}
+
+.buttonDiv button{
+    background-color: antiquewhite;
+    margin-left: 5%;
+}
+
+img{
+    width: 20px;
+    height: 20px;
+    background-color: antiquewhite;
+    margin-right: 2%;
+    margin-bottom: 1%;
+}

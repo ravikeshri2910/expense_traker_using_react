@@ -1,3 +1,14 @@
+.active{
+
+    /* color: rgb(41, 22, 22); */
+    /* border: 2px solid red; */
+    color: white;
+    text-decoration: underline;
+    /* margin: 1rem; */
+}
+
+
+
 .navItemContainer{
 
     width: 40%;

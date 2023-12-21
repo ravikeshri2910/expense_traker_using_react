@@ -1,11 +1,17 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import classes from './Home.module.css'
 
 const Home = (props) =>{
 
     return (
-        <h1>Welcome to expense traker</h1>
+        <>
+        <div className={classes.homeContainer}>
+            <p>Welcome to expense traker!!!</p>
+            <p>Your profile is incomplete, <Link to = '/contact-form' ><span>Complete Now</span> </Link></p>
+        </div><hr/>
+        </>
     )
 }
 

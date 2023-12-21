@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState ,useContext} from 'react'
 import { Link } from 'react-router-dom'
 
 import classes from './Sinup.module.css'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import AuthContext from '../../Store/AuthContext';
 
 const Sinup = (props) => {
 
@@ -10,7 +11,7 @@ const Sinup = (props) => {
     const [isLodding, setIsLodding] = useState(false);
     const history = useHistory()
 
-    // const authCntx = useContext(AuthContext)
+    const authCntx = useContext(AuthContext)
 
     const enteredEmailRef = useRef()
     const enteredPasswordRef = useRef()
@@ -41,7 +42,9 @@ const Sinup = (props) => {
 
             if(data.idToken){
                 history.replace('/')
-                console.log(data.idToken)
+                authCntx.logIn(data.idToken)
+                console.log('authCon', authCntx.isLoggedIn)
+                // console.log(data.idToken)
             }
         } catch (error) {
             console.log(error)
