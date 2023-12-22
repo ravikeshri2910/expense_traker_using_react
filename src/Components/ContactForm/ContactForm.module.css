@@ -1,7 +1,8 @@
 .formContainer{
 
     /* border: 2px solid red; */
-    margin: 4rem 25rem;
+    margin: 5% 30%;
+    /* margin: 4rem 25rem; */
     height: 300px;
     background-color: rgb(75, 19, 19);
     color: aliceblue;
@@ -17,7 +18,9 @@
 .form input{
     border: 2px solid black;
     width: 70%;
-    margin: 0 4rem;
+    margin: 0 15%;
+    /* margin: 0 4rem; */
+    border-radius: 5px;
 }
 /* .buttonDiv{
     display: flex;
@@ -26,7 +29,7 @@
     /* border: 2px solid red; */
     display: flex;
     width: 30%;
-    margin-left: 8rem;
+    margin-left: 32%;
 }
 
 .buttonDiv button{

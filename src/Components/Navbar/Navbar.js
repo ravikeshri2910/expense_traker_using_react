@@ -21,8 +21,11 @@ const MainNavbar = (props) => {
                 <Nav className={classes.navItemContainer}>
                 
                     <Link className={classes.navItem} to="/">Home</Link>
-                    <Link className={classes.navItem} to="/">Features</Link>
+
+                    <Link className={classes.navItem} to='/verify-email'>Verify Email</Link>
+
                     {authCntx.isLoggedIn && <Link onClick = {sinOutHandler} className={classes.navItem} to='/sinup' >Sin Out</Link>}
+
                     {!authCntx.isLoggedIn && <Link className={classes.navItem} to='/sinup' >Sin In</Link>}
                 </Nav>
             </Container>

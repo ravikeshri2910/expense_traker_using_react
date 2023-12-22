@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import Navbar from './Components/Navbar/Navbar';
 import HomePage from './Pages/HomePage';
 import ContactFormPage from './Pages/ContactFormPage';
+import VerifyEmailPage from './Pages/VerifyEmailPage';
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
         </Route>
         <Route path = '/contact-form'>
           <ContactFormPage />
+        </Route>
+        <Route path = '/verify-email'>
+          <VerifyEmailPage />
         </Route>
       </Switch>
     </div>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 import ProfileImage from '../../Images/unknown-person-icon.png'
 import GlobeImage from '../../Images/world-globe-line-icon.png'
@@ -9,66 +9,69 @@ import AuthContext from "../../Store/AuthContext";
 const ContactForm = (props) => {
 
     const authCntx = useContext(AuthContext)
-    
-    
-    const nameRef =  useRef()
-    const imageUrlRef =  useRef()
-    
-    const getProfiledataHandler = async() =>{
 
-        try{
+    const [isLodding, setIsLodding] = useState(false)
 
-            const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBG525dQLh8AKxMmQHyiyUSkRG5YJkahPw',{
-                method:'POST',
-                body : JSON.stringify ({
-                    idToken  : authCntx.token
+    const nameRef = useRef('')
+    const imageUrlRef = useRef('')
+
+    const getProfiledataHandler = async () => {
+
+        try {
+
+            const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyBG525dQLh8AKxMmQHyiyUSkRG5YJkahPw', {
+                method: 'POST',
+                body: JSON.stringify({
+                    idToken: authCntx.token
                 }),
-                headers : {
-                    'content-type' : 'application/json'
+                headers: {
+                    'content-type': 'application/json'
                 }
             })
 
             const data = await res.json()
 
-            nameRef.current.value = data.users[0].displayName
-            imageUrlRef.current.value = data.users[0].photoUrl
-            console.log('data'  , data)
+            nameRef.current.value = data.users[0].displayName || ''
+            imageUrlRef.current.value = data.users[0].photoUrl || ''
+            console.log('data', data)
 
-        }catch(error){
+        } catch (error) {
             console.log(error)
         }
     }
 
-    useEffect (()=>{
+    useEffect(() => {
         getProfiledataHandler()
-    },[])
+    }, [])
 
-
-    const UpdateHandler = async(event) =>{
+    const UpdateHandler = async (event) => {
         event.preventDefault()
 
         const name = nameRef.current.value;
         const imageUrl = imageUrlRef.current.value;
 
-        const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBG525dQLh8AKxMmQHyiyUSkRG5YJkahPw',{
-            method : 'POST',
-            body : JSON.stringify({
-                idToken:authCntx.token,
-                displayName:name,
-                photoUrl:imageUrl,
-                returnSecureToken:true
+        setIsLodding(true)
+        const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyBG525dQLh8AKxMmQHyiyUSkRG5YJkahPw', {
+            method: 'POST',
+            body: JSON.stringify({
+                idToken: authCntx.token,
+                displayName: name,
+                photoUrl: imageUrl,
+                returnSecureToken: true
             }),
-            headers : {
-                'content-type' : 'application/json'
+            headers: {
+                'content-type': 'application/json'
             }
         })
 
         const data = await res.json()
         nameRef.current.value = ''
-            imageUrlRef.current.value = ''
+        imageUrlRef.current.value = ''
+        setIsLodding(false)
+        alert('Updated')
         console.log('data', data)
     }
-    const cancelHandler = (event) =>{
+    const cancelHandler = (event) => {
         event.preventDefault()
         console.log('here')
     }
@@ -83,8 +86,9 @@ const ContactForm = (props) => {
             <input ref={imageUrlRef} type="text"></input><br />
 
             <div className={classes.buttonDiv}>
-                <Button onClick={UpdateHandler} variant="info"><b>Update</b></Button>{' '}
-                <Button onClick={cancelHandler}  variant="info"><b>Cancel</b></Button>{' '}
+                {!isLodding && <Button onClick={UpdateHandler} variant="info"><b>Update</b></Button>}
+                {isLodding && <p><b>Updating...</b></p>}
+                {!isLodding && <Button onClick={cancelHandler} variant="info"><b>Cancel</b></Button>}
             </div>
         </form>
 
