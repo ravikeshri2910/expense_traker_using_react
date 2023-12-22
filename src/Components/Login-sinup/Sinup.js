@@ -125,7 +125,7 @@ const Sinup = (props) => {
             {isLodding && <p>Loading...</p>}
 
             <div className={classes.actions}>
-                <Link><p>Forget Password</p></Link>
+                <Link to = '/forget-password'><p>Forget Password</p></Link>
             </div>
 
             <div className={classes.actions}>

@@ -7,6 +7,7 @@ import Navbar from './Components/Navbar/Navbar';
 import HomePage from './Pages/HomePage';
 import ContactFormPage from './Pages/ContactFormPage';
 import VerifyEmailPage from './Pages/VerifyEmailPage';
+import ForgetPasswordPage from './Pages/ForgetPasswordPage';
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
         </Route>
         <Route path = '/verify-email'>
           <VerifyEmailPage />
+        </Route>
+        <Route path = '/forget-password'>
+          <ForgetPasswordPage/>
         </Route>
       </Switch>
     </div>
