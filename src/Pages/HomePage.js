@@ -1,8 +1,13 @@
 import React from "react";
 import Home from "../Components/Home/Home";
+import AddExpenseForm from "../Components/AddExpenseForm/AddExpenseForm";
 
 const HomePage = () =>{
-   return( <Home />)
+   return <>
+   <Home />
+   <AddExpenseForm/>
+   {/* <div></div> */}
+   </>
 }
 
 export default HomePage
