@@ -8,6 +8,8 @@ import HomePage from './Pages/HomePage';
 import ContactFormPage from './Pages/ContactFormPage';
 import VerifyEmailPage from './Pages/VerifyEmailPage';
 import ForgetPasswordPage from './Pages/ForgetPasswordPage';
+import ExpensesDetails from './Components/Expenses/ExpensesDetails';
+import Expenses from './Components/Expenses/Expenses';
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
         </Route>
         <Route path = '/' exact>
           <HomePage />
+          
         </Route>
         <Route path = '/contact-form'>
           <ContactFormPage />

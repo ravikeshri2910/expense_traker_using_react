@@ -3,43 +3,70 @@ import React, { useState } from "react";
 
 const AuthContext = React.createContext({
 
-    token : [],
-    isLoggedIn : false,
-    logIn : ()=>{},
-    logOut : () =>{}
+    token: [],
+    isLoggedIn: false,
+    expenseAdding: false,
+    logIn: () => { },
+    logOut: () => { },
+    addExpenseHandler: () =>{},
+    addExpenseHandlerFalse: ()=>{}
 })
 
-export const AuthContextProvider = (props)=>{
+export const AuthContextProvider = (props) => {
 
     const initialToken = localStorage.getItem('token')
-    const [token,setToken] = useState(initialToken)
+    const [token, setToken] = useState(initialToken)
+
+    const [addExpense, setAddexpense] = useState(false)
+    const [editExpense, setEditExpense] = useState(false)
+    // const [id , setId] = useState('')
 
     let isLoggedIn;
 
-    if(token){
+    if (token) {
         // console.log('true')
         isLoggedIn = true
-    }else{
+    } else {
         // console.log('false')
         isLoggedIn = false
     }
 
-    const logOutHandler = () =>{
+    const logOutHandler = () => {
         setToken('')
         localStorage.removeItem('token')
     }
 
-    const logInHandler = (token) =>{
+    const logInHandler = (token) => {
         setToken(token)
-        localStorage.setItem('token',token)
+        localStorage.setItem('token', token)
     }
 
-    const authCntx = { 
+    const addExpenseHandler = () => {
+        console.log('true')
+        setAddexpense(true);
+    }
+    const addExpenseHandlerFalse = () => {
+        console.log('false')
+        setAddexpense(false);
+    }
 
-        token : token,
-        isLoggedIn : isLoggedIn,
-        logIn : logInHandler,
-        logOut : logOutHandler
+    const editingExpenseHandler =(id)=>{
+        setEditExpense((prevState) => !prevState)
+        // setEditExpense(id)
+
+    }
+
+    const authCntx = {
+
+        token: token,
+        isLoggedIn: isLoggedIn,
+        expenseAdding: addExpense,
+        editingExpense : editExpense,
+        logIn: logInHandler,
+        logOut: logOutHandler,
+        addExpenseHandler: addExpenseHandler,
+        addExpenseHandlerFalse: addExpenseHandlerFalse,
+        editingExpenseHandler : editingExpenseHandler
     }
 
     return <AuthContext.Provider value={authCntx} >

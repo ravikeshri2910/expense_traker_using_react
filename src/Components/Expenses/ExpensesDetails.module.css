@@ -1,0 +1,13 @@
+.mainContainer{
+    display: flex;
+    margin: 2% 0%;
+}
+
+.btnContainer{
+    display: grid;
+}
+
+.btnContainer button{
+    height: 50px;
+    margin: 1% 0%;
+}
