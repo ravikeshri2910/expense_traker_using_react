@@ -3,11 +3,28 @@ import React, { useContext, useEffect, useState } from "react";
 import classes from './Expenses.module.css'
 import ExpensesDetails from "./ExpensesDetails";
 import AuthContext from "../../Store/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import {ExpenseState} from '../../Store/expenseContext'
+import { Button } from "react-bootstrap";
 
 const Expenses = (props) => {
 
+    const dispatch = useDispatch()
+    const addExpense = useSelector(state => state.expenseReducer.addExpense)
+    // console.log('addExpense' ,addExpense)
     const [expenses, setExpenses] = useState([])
-    const authCntx = useContext(AuthContext)
+    const [totalExpense , setTotalExpense] = useState()
+    // const authCntx = useContext(AuthContext)
+    console.log('totalExpense' ,totalExpense)
+
+    useEffect(() => {
+        // Calculate total price when cart items change
+        const totalPrice = expenses.reduce((total, expense) => {
+            const price = parseFloat(expense.amount);
+            return total + price 
+        }, 0);
+        setTotalExpense(totalPrice);
+    }, [expenses]);
 
 
     const getExpenseData = async () => {
@@ -36,7 +53,8 @@ const Expenses = (props) => {
             }
 
             setExpenses(loadedData)
-            authCntx.addExpenseHandlerFalse()
+            // authCntx.addExpenseHandlerFalse()
+            dispatch(ExpenseState.addExpenseHandlerFalse())
         
             // console.log('auth', authCntx)
 
@@ -46,10 +64,10 @@ const Expenses = (props) => {
     }
 
     useEffect(() => {
-        if (authCntx.expenseAdding === true) {
+        if (addExpense === true) {
             getExpenseData()
         }
-    }, [authCntx.expenseAdding])
+    }, [addExpense])
 
     useEffect(() => {
             getExpenseData()
@@ -72,6 +90,7 @@ const Expenses = (props) => {
 
 
     return <>
+    { (totalExpense > 10000) &&    <Button variant="success">Lead board</Button>}
         {expenseItem}
     </>
 }

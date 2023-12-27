@@ -14,32 +14,32 @@ const AuthContext = React.createContext({
 
 export const AuthContextProvider = (props) => {
 
-    const initialToken = localStorage.getItem('token')
-    const [token, setToken] = useState(initialToken)
+    // const initialToken = localStorage.getItem('token')
+    // const [token, setToken] = useState(initialToken)
 
     const [addExpense, setAddexpense] = useState(false)
     const [editExpense, setEditExpense] = useState(false)
     // const [id , setId] = useState('')
 
-    let isLoggedIn;
+    // let isLoggedIn;
 
-    if (token) {
-        // console.log('true')
-        isLoggedIn = true
-    } else {
-        // console.log('false')
-        isLoggedIn = false
-    }
+    // if (token) {
+    //     // console.log('true')
+    //     isLoggedIn = true
+    // } else {
+    //     // console.log('false')
+    //     isLoggedIn = false
+    // }
 
-    const logOutHandler = () => {
-        setToken('')
-        localStorage.removeItem('token')
-    }
+    // const logOutHandler = () => {
+    //     setToken('')
+    //     localStorage.removeItem('token')
+    // }
 
-    const logInHandler = (token) => {
-        setToken(token)
-        localStorage.setItem('token', token)
-    }
+    // const logInHandler = (token) => {
+    //     setToken(token)
+    //     localStorage.setItem('token', token)
+    // }
 
     const addExpenseHandler = () => {
         console.log('true')
@@ -58,12 +58,12 @@ export const AuthContextProvider = (props) => {
 
     const authCntx = {
 
-        token: token,
-        isLoggedIn: isLoggedIn,
+        // token: token,
+        // isLoggedIn: isLoggedIn,
         expenseAdding: addExpense,
         editingExpense : editExpense,
-        logIn: logInHandler,
-        logOut: logOutHandler,
+        // logIn: logInHandler,
+        // logOut: logOutHandler,
         addExpenseHandler: addExpenseHandler,
         addExpenseHandlerFalse: addExpenseHandlerFalse,
         editingExpenseHandler : editingExpenseHandler

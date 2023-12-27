@@ -6,8 +6,20 @@ import AmountImage from '../../Images/amount.png'
 import DesImage from '../../Images/description.png'
 import CategoryImage from '../../Images/category.png'
 import AuthContext from "../../Store/AuthContext";
+// import {useDispach , useSelector} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
+import {ExpenseState} from '../../Store/expenseContext'
 
 const AddExpenseForm = (props) => {
+    
+    const dispatch = useDispatch()
+
+    const addExpense = useSelector(state => state.expenseReducer.addExpense)
+    const editExpense = useSelector(state => state.expenseReducer.editExpense)
+
+
+    console.log('editExpense' , editExpense)
+
     const enteredAmountRef = useRef()
     const enteredDescriptionRef = useRef()
     const enteredCategoryRef = useRef()
@@ -41,7 +53,8 @@ const AddExpenseForm = (props) => {
         enteredCategoryRef.current.value = '';
 
         console.log('authCntx', authCntx)
-        authCntx.addExpenseHandler()
+        // authCntx.addExpenseHandler()
+        dispatch(ExpenseState.addExpenseHandler())
         const data = await res.json()
         console.log(data)
 
@@ -59,7 +72,9 @@ const AddExpenseForm = (props) => {
         })
 
         const data = await res.json()
-        authCntx.editingExpenseHandler()
+        console.log('here')
+        // authCntx.editingExpenseHandler()
+        dispatch(ExpenseState.editingExpenseHandler())
 
         enteredAmountRef.current.value = data.amount;
         enteredDescriptionRef.current.value = data.description;
@@ -69,10 +84,10 @@ const AddExpenseForm = (props) => {
     }
 
     useEffect(() => {
-        if (authCntx.editingExpense === true) {
+        if (editExpense === true) {
             getEditingData()
         }
-    }, [authCntx.editingExpense])
+    }, [editExpense])
 
     const editExpenseHandler = async () => {
         setIsLodding(true)
@@ -89,13 +104,15 @@ const AddExpenseForm = (props) => {
             }
         
         })
+        localStorage.removeItem('id')
         setIsEditing(false)
         setIsLodding(false)
         enteredAmountRef.current.value = '';
         enteredDescriptionRef.current.value = '';
         enteredCategoryRef.current.value = '';
 
-        authCntx.addExpenseHandler()
+        // authCntx.addExpenseHandler()
+        dispatch(ExpenseState.addExpenseHandler())
         const data = await res.json()
         // console.log('data' , data)
     }

@@ -3,8 +3,12 @@ import { Card ,Button } from 'react-bootstrap';
 
 import classes from './ExpensesDetails.module.css'
 import AuthContext from "../../Store/AuthContext";
+import { useDispatch } from "react-redux";
+import {ExpenseState} from '../../Store/expenseContext'
 
 const ExpensesDetails = (props) => {
+
+    const dispatch = useDispatch()
 
     const authCntx =  useContext(AuthContext)
 
@@ -18,7 +22,8 @@ const ExpensesDetails = (props) => {
 
         const data = await res.json()
 
-        authCntx.addExpenseHandler()
+        // authCntx.addExpenseHandler()
+        dispatch(ExpenseState.addExpenseHandler())
         console.log(data)
         
     }
@@ -26,7 +31,8 @@ const ExpensesDetails = (props) => {
     const editHandler = () =>{
         const id = props.id
         localStorage.setItem('id', id)
-        authCntx.editingExpenseHandler()
+        // authCntx.editingExpenseHandler()
+        dispatch(ExpenseState.editingExpenseHandler())
 
         // const res = await fetch(`https://react-http-8fcff-default-rtdb.firebaseio.com/expenseTraker/${props.id}.json`, {
         //     method: 'Get',

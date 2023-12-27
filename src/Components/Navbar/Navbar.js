@@ -3,15 +3,21 @@ import { Navbar, Container, Nav } from 'react-bootstrap'
 import { Link,NavLink } from "react-router-dom"
 import classes from './Navbar.module.css'
 import AuthContext from "../../Store/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../../Store/logInContext";
 
 
 const MainNavbar = (props) => {
 
-    const authCntx = useContext(AuthContext)
+    const dispatch = useDispatch()
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
+    // console.log('isLoggedIn' , isLoggedIn)
+    // const authCntx = useContext(AuthContext) // using useContext hook
 
     const sinOutHandler = () =>{
-        console.log('sinOut')
-        authCntx.logOut()
+        // console.log('sinOut')
+        dispatch(authActions.logOutHandler())
+        // authCntx.logOut()
     }
 
     return (
@@ -22,11 +28,11 @@ const MainNavbar = (props) => {
                 
                     <Link className={classes.navItem} to="/">Home</Link>
 
-                    <Link className={classes.navItem} to='/verify-email'>Verify Email</Link>
+                    {isLoggedIn && <Link className={classes.navItem} to='/verify-email'>Verify Email</Link>}
 
-                    {authCntx.isLoggedIn && <Link onClick = {sinOutHandler} className={classes.navItem} to='/sinup' >Sin Out</Link>}
+                    {isLoggedIn && <Link onClick = {sinOutHandler} className={classes.navItem} to='/sinup' >Sin Out</Link>}
 
-                    {!authCntx.isLoggedIn && <Link className={classes.navItem} to='/sinup' >Sin In</Link>}
+                    {!isLoggedIn && <Link className={classes.navItem} to='/sinup' >Sin In</Link>}
                 </Nav>
             </Container>
         </Navbar>

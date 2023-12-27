@@ -12,15 +12,19 @@ import '../node_modules/react-bootstrap/dist/react-bootstrap'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import { AuthContextProvider } from './Store/AuthContext';
+import { Provider } from 'react-redux';
+import Store from './Store/configStore'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <AuthContextProvider>
+    <Provider store={Store}>
     <BrowserRouter>
       <React.StrictMode>
         <App />
       </React.StrictMode>
     </BrowserRouter>
+    </Provider>
   </AuthContextProvider>
 );
 
