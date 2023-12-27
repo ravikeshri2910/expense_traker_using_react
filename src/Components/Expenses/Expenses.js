@@ -1,21 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import classes from './Expenses.module.css'
+// import classes from './Expenses.module.css'
 import ExpensesDetails from "./ExpensesDetails";
-import AuthContext from "../../Store/AuthContext";
+// import AuthContext from "../../Store/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import {ExpenseState} from '../../Store/expenseContext'
+import {themeAction} from '../../Store/themeContext'
 import { Button } from "react-bootstrap";
 
 const Expenses = (props) => {
 
     const dispatch = useDispatch()
     const addExpense = useSelector(state => state.expenseReducer.addExpense)
+    const addedTotalExpense = useSelector(state => state.themeReducer.totalExpense)
     // console.log('addExpense' ,addExpense)
     const [expenses, setExpenses] = useState([])
-    const [totalExpense , setTotalExpense] = useState()
+    // const [totalExpense , setTotalExpense] = useState()
     // const authCntx = useContext(AuthContext)
-    console.log('totalExpense' ,totalExpense)
+    // console.log('totalExpense' ,totalExpense)
 
     useEffect(() => {
         // Calculate total price when cart items change
@@ -23,7 +25,8 @@ const Expenses = (props) => {
             const price = parseFloat(expense.amount);
             return total + price 
         }, 0);
-        setTotalExpense(totalPrice);
+        dispatch(themeAction.updateTotalExpense(totalPrice))
+        // setTotalExpense(totalPrice);
     }, [expenses]);
 
 
@@ -90,7 +93,7 @@ const Expenses = (props) => {
 
 
     return <>
-    { (totalExpense > 10000) &&    <Button variant="success">Lead board</Button>}
+    { (addedTotalExpense > 10000) &&    <Button variant="success">Lead board</Button>}
         {expenseItem}
     </>
 }

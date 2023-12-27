@@ -1,23 +1,28 @@
-import React, { useContext } from "react";
-import { Navbar, Container, Nav } from 'react-bootstrap'
+import React, { useContext, useState } from "react";
+import { Navbar, Container, Nav , Button } from 'react-bootstrap'
 import { Link,NavLink } from "react-router-dom"
 import classes from './Navbar.module.css'
 import AuthContext from "../../Store/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../Store/logInContext";
+import {themeAction} from '../../Store/themeContext'
 
 
 const MainNavbar = (props) => {
-
+   
     const dispatch = useDispatch()
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-    // console.log('isLoggedIn' , isLoggedIn)
-    // const authCntx = useContext(AuthContext) // using useContext hook
+    const totalExpense = useSelector(state => state.themeReducer.totalExpense)
+    const theme = useSelector(state => state.themeReducer.theme)
 
     const sinOutHandler = () =>{
         // console.log('sinOut')
         dispatch(authActions.logOutHandler())
         // authCntx.logOut()
+    }
+
+    const toggleTheme = ()=> {
+        dispatch(themeAction.updateTheme())
     }
 
     return (
@@ -33,6 +38,13 @@ const MainNavbar = (props) => {
                     {isLoggedIn && <Link onClick = {sinOutHandler} className={classes.navItem} to='/sinup' >Sin Out</Link>}
 
                     {!isLoggedIn && <Link className={classes.navItem} to='/sinup' >Sin In</Link>}
+
+                    {totalExpense > 10000 &&
+                        <Button onClick={toggleTheme} variant={theme === 'dark' ? "light" : "dark"}>
+                            {theme === 'dark' ? "Light" : "Dark"}
+                        </Button>
+                    }
+
                 </Nav>
             </Container>
         </Navbar>

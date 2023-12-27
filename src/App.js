@@ -10,10 +10,15 @@ import VerifyEmailPage from './Pages/VerifyEmailPage';
 import ForgetPasswordPage from './Pages/ForgetPasswordPage';
 import ExpensesDetails from './Components/Expenses/ExpensesDetails';
 import Expenses from './Components/Expenses/Expenses';
+import { useSelector } from 'react-redux';
 
 function App() {
+
+  const theme = useSelector((state) => state.themeReducer.theme); // Get the current theme from Redux store
+
+  console.log('theme', theme)
   return (
-    <div className="App">
+    <div className={`App ${theme}`}>
       <Navbar />
       <Switch>
         <Route path='/sinUp'>
