@@ -4,8 +4,8 @@ import classes from './Expenses.module.css'
 import ExpensesDetails from "./ExpensesDetails";
 // import AuthContext from "../../Store/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
-import {ExpenseState} from '../../Store/expenseContext'
-import {themeAction} from '../../Store/themeContext'
+import { ExpenseState } from '../../Store/expenseContext'
+import { themeAction } from '../../Store/themeContext'
 import { Button } from "react-bootstrap";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable'; // Import the jspdf-autotable plugin
@@ -13,24 +13,26 @@ import 'jspdf-autotable'; // Import the jspdf-autotable plugin
 
 const Expenses = (props) => {
 
+    // Redux state management hooks
     const dispatch = useDispatch()
     const addExpense = useSelector(state => state.expenseReducer.addExpense)
     const addedTotalExpense = useSelector(state => state.themeReducer.totalExpense)
-    
-    const [expenses, setExpenses] = useState([])
-  
 
+    // Local state for expenses
+    const [expenses, setExpenses] = useState([])
+
+    // Effect to recalculate total price when expenses change
     useEffect(() => {
         // Calculate total price when expense change
         const totalPrice = expenses.reduce((total, expense) => {
             const price = parseFloat(expense.amount);
-            return total + price 
+            return total + price
         }, 0);
         dispatch(themeAction.updateTotalExpense(totalPrice))
         // setTotalExpense(totalPrice);
     }, [expenses]);
 
-
+    // Function to fetch expense data from API
     const getExpenseData = async () => {
 
         try {
@@ -59,7 +61,7 @@ const Expenses = (props) => {
             setExpenses(loadedData)
             // authCntx.addExpenseHandlerFalse()
             dispatch(ExpenseState.addExpenseHandlerFalse())
-        
+
             // console.log('auth', authCntx)
 
         } catch (error) {
@@ -67,6 +69,7 @@ const Expenses = (props) => {
         }
     }
 
+    // Fetch data when addExpense state changes or on component mount
     useEffect(() => {
         if (addExpense === true) {
             getExpenseData()
@@ -74,11 +77,11 @@ const Expenses = (props) => {
     }, [addExpense])
 
     useEffect(() => {
-            getExpenseData()
+        getExpenseData()
     }, [])
 
-    // const expenses = 
 
+    // Function to render individual expense items
     const expenseItem = expenses.map((item) => {
         return (<>
             <ExpensesDetails
@@ -92,6 +95,7 @@ const Expenses = (props) => {
         )
     })
 
+    // Function to download expense data as a text file
     const downloadExpenseData = () => {
         const expenseData = expenses.map(item => {
             return `ID: ${item.id}, Amount: ${item.amount}, Description: ${item.description}, Category: ${item.category}`;
@@ -115,12 +119,13 @@ const Expenses = (props) => {
         URL.revokeObjectURL(url);
     };
 
+    // Function to download expense data as a PDF file
     const downloadExpenseDataAsPDF = () => {
         const doc = new jsPDF();
-        const tableColumn = ["Serial no.","ID", "Amount", "Description", "Category"];
+        const tableColumn = ["Serial no.", "ID", "Amount", "Description", "Category"];
         const tableRows = [];
 
-        expenses.forEach((item , index)  => {
+        expenses.forEach((item, index) => {
             const rowData = [
                 index + 1, // Serial number (index + 1)
                 item.id,
@@ -142,9 +147,13 @@ const Expenses = (props) => {
 
 
     return <div className={classes.expenseDiv}>
-    { (addedTotalExpense > 10000) &&    <Button variant="success">Lead board</Button> }
-    { (addedTotalExpense > 10000) &&    <Button variant="success" onClick={downloadExpenseData}>DownLoad</Button> }
-    { (addedTotalExpense > 10000) &&    <Button variant="success" onClick={downloadExpenseDataAsPDF}>DownLoad as PDF</Button> }
+        
+        {/* Render buttons based on conditions */}
+        {(addedTotalExpense > 10000) && <Button variant="success">Lead board</Button>}
+        {(addedTotalExpense > 10000) && <Button variant="success" onClick={downloadExpenseData}>DownLoad</Button>}
+        {(addedTotalExpense > 10000) && <Button variant="success" onClick={downloadExpenseDataAsPDF}>DownLoad as PDF</Button>}
+
+        {/* Render individual expense items */}
         {expenseItem}
     </div>
 }
