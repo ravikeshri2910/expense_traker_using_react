@@ -1,26 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
 
-// import classes from './Expenses.module.css'
+import classes from './Expenses.module.css'
 import ExpensesDetails from "./ExpensesDetails";
 // import AuthContext from "../../Store/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import {ExpenseState} from '../../Store/expenseContext'
 import {themeAction} from '../../Store/themeContext'
 import { Button } from "react-bootstrap";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable'; // Import the jspdf-autotable plugin
+
 
 const Expenses = (props) => {
 
     const dispatch = useDispatch()
     const addExpense = useSelector(state => state.expenseReducer.addExpense)
     const addedTotalExpense = useSelector(state => state.themeReducer.totalExpense)
-    // console.log('addExpense' ,addExpense)
+    
     const [expenses, setExpenses] = useState([])
-    // const [totalExpense , setTotalExpense] = useState()
-    // const authCntx = useContext(AuthContext)
-    // console.log('totalExpense' ,totalExpense)
+  
 
     useEffect(() => {
-        // Calculate total price when cart items change
+        // Calculate total price when expense change
         const totalPrice = expenses.reduce((total, expense) => {
             const price = parseFloat(expense.amount);
             return total + price 
@@ -91,11 +92,61 @@ const Expenses = (props) => {
         )
     })
 
+    const downloadExpenseData = () => {
+        const expenseData = expenses.map(item => {
+            return `ID: ${item.id}, Amount: ${item.amount}, Description: ${item.description}, Category: ${item.category}`;
+        }).join('\n');
 
-    return <>
-    { (addedTotalExpense > 10000) &&    <Button variant="success">Lead board</Button>}
+        const blob = new Blob([expenseData], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+
+        // Create a temporary link element to trigger the download
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'expenses.txt');
+        link.style.display = 'none'; // Hide the link
+        document.body.appendChild(link);
+
+        // Simulate click on the link to start download
+        link.click();
+
+        // Clean up: remove the link and revoke the URL object
+        link.parentNode.removeChild(link);
+        URL.revokeObjectURL(url);
+    };
+
+    const downloadExpenseDataAsPDF = () => {
+        const doc = new jsPDF();
+        const tableColumn = ["Serial no.","ID", "Amount", "Description", "Category"];
+        const tableRows = [];
+
+        expenses.forEach((item , index)  => {
+            const rowData = [
+                index + 1, // Serial number (index + 1)
+                item.id,
+                item.amount,
+                item.description,
+                item.category
+            ];
+            tableRows.push(rowData);
+        });
+
+        doc.autoTable({
+            head: [tableColumn],
+            body: tableRows
+        });
+
+        // Save the PDF with a specific name
+        doc.save('expenses.pdf');
+    };
+
+
+    return <div className={classes.expenseDiv}>
+    { (addedTotalExpense > 10000) &&    <Button variant="success">Lead board</Button> }
+    { (addedTotalExpense > 10000) &&    <Button variant="success" onClick={downloadExpenseData}>DownLoad</Button> }
+    { (addedTotalExpense > 10000) &&    <Button variant="success" onClick={downloadExpenseDataAsPDF}>DownLoad as PDF</Button> }
         {expenseItem}
-    </>
+    </div>
 }
 
 export default Expenses
