@@ -147,9 +147,9 @@ const Expenses = (props) => {
 
 
     return <div className={classes.expenseDiv}>
-        
+
         {/* Render buttons based on conditions */}
-        {(addedTotalExpense > 10000) && <Button variant="success">Lead board</Button>}
+        {(addedTotalExpense) && <p variant="success"><b>Total Expese : {addedTotalExpense}</b> </p>}
         {(addedTotalExpense > 10000) && <Button variant="success" onClick={downloadExpenseData}>DownLoad</Button>}
         {(addedTotalExpense > 10000) && <Button variant="success" onClick={downloadExpenseDataAsPDF}>DownLoad as PDF</Button>}
 

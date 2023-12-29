@@ -2,15 +2,13 @@ import React, { useContext } from "react";
 import { Card ,Button } from 'react-bootstrap';
 
 import classes from './ExpensesDetails.module.css'
-import AuthContext from "../../Store/AuthContext";
+// import AuthContext from "../../Store/AuthContext";
 import { useDispatch } from "react-redux";
 import {ExpenseState} from '../../Store/expenseContext'
 
 const ExpensesDetails = (props) => {
 
     const dispatch = useDispatch()
-
-    const authCntx =  useContext(AuthContext)
 
     const deleteHandler = async() =>{
         console.log(props.id,props.amount)
