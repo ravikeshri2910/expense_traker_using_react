@@ -31,13 +31,13 @@ const MainNavbar = (props) => {
                 <Link className={classes.navItem} to="/"><Navbar.Brand >Expense Traker</Navbar.Brand></Link>
                 <Nav className={classes.navItemContainer}>
                 
-                    <Link className={classes.navItem} to="/">Home</Link>
+
 
                     {isLoggedIn && <Link className={classes.navItem} to='/verify-email'>Verify Email</Link>}
-
                     {isLoggedIn && <Link onClick = {sinOutHandler} className={classes.navItem} to='/sinup' >Sin Out</Link>}
 
                     {!isLoggedIn && <Link className={classes.navItem} to='/sinup' >Sin In</Link>}
+                    <Link className={classes.navItem} to="/">Home</Link>
 
                     {totalExpense > 10000 &&
                         <Button onClick={toggleTheme} variant={theme === 'dark' ? "light" : "dark"}>

@@ -9,6 +9,7 @@ import AuthContext from "../../Store/AuthContext";
 // import {useDispach , useSelector} from 'react-redux'
 import { useSelector, useDispatch } from 'react-redux';
 import {ExpenseState} from '../../Store/expenseContext'
+import {authActions} from '../../Store/logInContext'
 
 const AddExpenseForm = (props) => {
     
@@ -16,6 +17,7 @@ const AddExpenseForm = (props) => {
 
     const addExpense = useSelector(state => state.expenseReducer.addExpense)
     const editExpense = useSelector(state => state.expenseReducer.editExpense)
+    const userEmail = useSelector(state => state.auth.email)
 
 
     console.log('editExpense' , editExpense)
@@ -32,15 +34,15 @@ const AddExpenseForm = (props) => {
 
     const addExpenseHandler = async (event) => {
         event.preventDefault()
-
+        console.log('userEmail' , userEmail)
         setIsLodding(true)
-        // const res = await fetch('https://expense.firebaseio.com/users/jack/name.json', {
         const res = await fetch('https://react-http-8fcff-default-rtdb.firebaseio.com/expenseTraker.json', {
             method: 'POST',
             body: JSON.stringify({
                 amount: enteredAmountRef.current.value,
                 description: enteredDescriptionRef.current.value,
-                category: enteredCategoryRef.current.value
+                category: enteredCategoryRef.current.value,
+                email : userEmail
             }),
             headers: {
                 'content-type': 'application/json'
@@ -52,7 +54,7 @@ const AddExpenseForm = (props) => {
         enteredDescriptionRef.current.value = '';
         enteredCategoryRef.current.value = '';
 
-        console.log('authCntx', authCntx)
+        // console.log('authCntx', authCntx)
         // authCntx.addExpenseHandler()
         dispatch(ExpenseState.addExpenseHandler())
         const data = await res.json()
@@ -97,7 +99,8 @@ const AddExpenseForm = (props) => {
             body : JSON.stringify({
                 amount: enteredAmountRef.current.value,
                 description: enteredDescriptionRef.current.value,
-                category: enteredCategoryRef.current.value
+                category: enteredCategoryRef.current.value,
+                email : userEmail
             }),
             headers: {
                 'content-type': 'application/json'

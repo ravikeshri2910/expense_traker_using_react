@@ -3,19 +3,20 @@ import { Link } from 'react-router-dom'
 
 import classes from './Sinup.module.css'
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import AuthContext from '../../Store/AuthContext';
+// import AuthContext from '../../Store/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
 import {authActions} from '../../Store/logInContext'
 
 const Sinup = (props) => {
     const dispatch  = useDispatch()
     const token = useSelector(state => state.auth.token)
+    
 
     const [isLogin, setIsLogin] = useState(true);
     const [isLodding, setIsLodding] = useState(false);
     const history = useHistory()
 
-    const authCntx = useContext(AuthContext)
+    // const authCntx = useContext(AuthContext)
 
     const enteredEmailRef = useRef()
     const enteredPasswordRef = useRef()
@@ -44,10 +45,15 @@ const Sinup = (props) => {
             const data = await res.json()
             console.log('data', data)
 
+            if(data.error){
+                alert(data.error.message)
+            }
+
             if(data.idToken){
                 history.replace('/')
 
                 dispatch(authActions.logInHandler(data.idToken))
+                dispatch(authActions.addEmail(enteredEmailRef.current.value))
 
                 // authCntx.logIn(data.idToken)
                 // console.log('authCon', authCntx.isLoggedIn)

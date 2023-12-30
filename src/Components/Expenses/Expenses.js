@@ -17,6 +17,7 @@ const Expenses = (props) => {
     const dispatch = useDispatch()
     const addExpense = useSelector(state => state.expenseReducer.addExpense)
     const addedTotalExpense = useSelector(state => state.themeReducer.totalExpense)
+    const userEmail = useSelector(state => state.auth.email)
 
     // Local state for expenses
     const [expenses, setExpenses] = useState([])
@@ -25,8 +26,9 @@ const Expenses = (props) => {
     useEffect(() => {
         // Calculate total price when expense change
         const totalPrice = expenses.reduce((total, expense) => {
-            const price = parseFloat(expense.amount);
-            return total + price
+                const price = parseFloat(expense.amount);
+                return total + price
+            
         }, 0);
         dispatch(themeAction.updateTotalExpense(totalPrice))
         // setTotalExpense(totalPrice);
@@ -45,20 +47,24 @@ const Expenses = (props) => {
             })
 
             const data = await res.json()
-            console.log(data)
+            console.log('getadta', data)
 
             const loadedData = [];
 
             for (const key in data) {
-                loadedData.push({
-                    id: key,
-                    amount: data[key].amount,
-                    description: data[key].description,
-                    category: data[key].category
-                })
+                if (userEmail === data[key].email) {
+                    loadedData.push({
+                        id: key,
+                        amount: data[key].amount,
+                        description: data[key].description,
+                        category: data[key].category,
+                        email: data[key].email
+                    })
+                }
             }
 
             setExpenses(loadedData)
+            // console.log('loadedData' , loadedData)
             // authCntx.addExpenseHandlerFalse()
             dispatch(ExpenseState.addExpenseHandlerFalse())
 
